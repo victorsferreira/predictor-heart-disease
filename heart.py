@@ -2,7 +2,10 @@ import os
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.datasets import load_iris
+
 import sys
 
 # CHANGE THIS TO CORRECT FOLDER NAME
@@ -69,7 +72,7 @@ heart = load_heart_disease_data([
     "cleveland.csv",
     "switzerland.csv",
     "hungarian.csv",
-    "longbeach.csv"
+    # "longbeach.csv"
 ])
 
 # Cleans dataframe
@@ -86,8 +89,13 @@ test_size = .20
 train_set, test_set, train_labels, test_labels = train_test_split(examples, labels, test_size=test_size, random_state=42)
 
 #Creates model
-model = ExtraTreesClassifier()
-model.fit(train_set, train_labels)
+#ExtraTreesClassifier
+#model = ExtraTreesClassifier()
+#model.fit(train_set, train_labels)
+
+#LogisticRegression
+model = LogisticRegression(max_iter=10000000)
+model.fit(train_set.values, train_labels.values)
 
 if sys.argv[1] == 'test':
     # Test and print results

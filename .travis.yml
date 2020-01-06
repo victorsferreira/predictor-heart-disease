@@ -7,3 +7,27 @@ install:
 
 script:
   - python3 -m unittest heart_test
+  - zip -r latest *
+  - mkdir -p dpl_cd_upload
+  - mv latest.zip dpl_cd_upload/latest.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AccessKeyId
+    secret_access_key: $AccessKeySecret
+    local_dir: dpl_cd_upload
+    skip_cleanup: true
+    # on: &2
+    #   repo: organization/reponameHERE
+    bucket: heartdiseasepredictor
+    region: us-east-1
+  - provider: codedeploy
+    access_key_id: $AccessKeyId
+    secret_access_key: $AccessKeySecret
+    bucket: heartdiseasepredictor
+    key: latest.zip
+    bundle_type: zip
+    application: heartdiseasepredictor
+    deployment_group: travisheartdiseasegroup
+    region: us-east-1
+    # on: *2
