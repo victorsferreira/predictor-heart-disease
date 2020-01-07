@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo chown ubuntu -R ./
 sudo chmod +x -R ./
 touch foo.txt
 touch foo2.txt
