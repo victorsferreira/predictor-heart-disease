@@ -6,4 +6,4 @@ files:
 hooks:
   AfterInstall:
     - location: init.sh
-      timeout: 600
+      timeout: 30
