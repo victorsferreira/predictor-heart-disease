@@ -2,4 +2,4 @@ numpy
 pandas
 sklearn
 eventlet
-socketio
+python-socketio
