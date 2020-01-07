@@ -5,5 +5,5 @@ files:
     destination: /home/ubuntu/predictor
 hooks:
   AfterInstall:
-    - location: /home/ubuntu/predictor/init.sh
+    - location: init.sh
       timeout: 600
