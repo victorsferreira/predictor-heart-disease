@@ -8,3 +8,4 @@ hooks:
   AfterInstall:
     - location: init.sh
       timeout: 30
+      runas: ubuntu
