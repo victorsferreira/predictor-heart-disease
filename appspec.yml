@@ -1,12 +1,10 @@
 version: 0.0
 os: linux
-some_var: &var
-  val: init.sh
 files:
   - source: ./
     destination: /home/ubuntu/predictor
     runas: ubuntu
 hooks:
   AfterInstall:
-    - location: *var.val
+    - location: init.sh
       timeout: 600
