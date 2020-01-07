@@ -31,4 +31,3 @@ deploy:
     application: heartdiseasepredictor
     deployment_group: travisheartdiseasegroup
     region: us-east-1
-    # on: *2

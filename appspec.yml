@@ -3,3 +3,7 @@ os: linux
 files:
   - source: ./
     destination: /home/ubuntu/predictor
+hooks:
+  AfterInstall:
+    - location: init.sh
+      timeout: 600
