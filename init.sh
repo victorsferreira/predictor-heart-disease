@@ -5,4 +5,4 @@ echo "Installing pip3"
 echo "Installing Python dependencies"
 # pip3 install -r /home/ubuntu/predictor/requirements.txt
 echo "Will start server on port 5000"
-python3 /home/ubuntu/predictor/server.py &
+nohup python3 /home/ubuntu/predictor/server.py </dev/null &>/dev/null &
