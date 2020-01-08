@@ -5,6 +5,9 @@ files:
     destination: /home/ubuntu/predictor
     runas: ubuntu
 hooks:
+  BeforeInstall:
+    - location: scripts/BeforeInstall.sh
+      timeout: 300
   AfterInstall:
-    - location: init.sh
-      timeout: 60
+    - location: scripts/AfterInstall.sh
+      timeout: 300

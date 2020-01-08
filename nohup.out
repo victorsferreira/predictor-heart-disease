@@ -1,6 +1,0 @@
-(17787) wsgi starting up on http://0.0.0.0:5000
-wsgi exiting
-(17787) wsgi exited, is_accepting=True
-(17793) wsgi starting up on http://0.0.0.0:5000
-wsgi exiting
-(17793) wsgi exited, is_accepting=True
