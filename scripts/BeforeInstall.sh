@@ -1,4 +1,4 @@
 #!/bin/bash
 
 echo "Stop Python process"
-sudo killall python3
+sudo killall python3 || true
