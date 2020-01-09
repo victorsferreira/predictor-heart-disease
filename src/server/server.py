@@ -22,6 +22,10 @@ def hello(sid, data):
     return "TESTE 2"
 
 @sio.event
+def ping(sid, data):
+    return "Pong"
+
+@sio.event
 def disconnect(sid):
     print('disconnect ', sid)
 
