@@ -1,5 +1,10 @@
-import heart
 import unittest
+# It is appending path, not at the beginning
+import sys
+import os
+dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(dir,'..','src/predictor'))
+import heart
 
 class TestHeart(unittest.TestCase):
     def test_get_inputs(self):
