@@ -16,8 +16,8 @@ script:
 # Run when is merged with master
 deploy:
   - provider: s3
-    access_key_id: $AccessKeyId
-    secret_access_key: $AccessKeySecret
+    access_key_id: $AccessKeyId #RENAME THIS
+    secret_access_key: $AccessKeySecret #RENAME THIS
     local_dir: dpl_cd_upload
     skip_cleanup: true
     bucket: heartdiseasepredictor
