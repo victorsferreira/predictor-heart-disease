@@ -16,7 +16,7 @@ app = Flask(__name__)
 def predict():
     data = request.get_json()
     result = heart.predict(data)
-    return jsonify(result.tolist)
+    return jsonify(result.tolist())
 
 if __name__ == '__main__':
     model = heart.train_model()
