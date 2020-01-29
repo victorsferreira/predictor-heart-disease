@@ -9,7 +9,8 @@ from sklearn.datasets import load_iris
 import sys
 
 # CHANGE THIS TO CORRECT FOLDER NAME
-HEART_PATH = os.path.join ('..', '..', 'datasets')
+dir = os.path.dirname(os.path.abspath(__file__))
+HEART_PATH = os.path.join (dir, '..', '..', 'datasets')
 
 def remove_rows_with_missing_values(data):
     df = data.copy().apply (pd.to_numeric, errors='coerce')
@@ -17,6 +18,7 @@ def remove_rows_with_missing_values(data):
 
 def load_heart_disease_data(filenames):
     dataframes = []
+    # print(HEART_PATH)
     for filename in filenames:    
         csv_path = os.path.join(HEART_PATH, filename)
         df = pd.read_csv(csv_path)
@@ -56,16 +58,70 @@ def get_inputs(args, keys):
 
     return inputs
 
-def get_inputs_as_matrix(args, keys, default=None):
+def get_attrs_as_matrix(args, keys, default=None):
     matrix_row = []
-
-    inputs = get_inputs(args, keys)
-
-    for value in keys:
-        if value in inputs: matrix_row.append(inputs[value])
-        else: matrix_row.append(default)
     
+    for value in keys:
+        if value in args: 
+            matrix_row.append(float(args[value]))
+        else:
+            matrix_row.append(default)
+    print(matrix_row)
     return [matrix_row]
+
+def get_inputs_as_matrix(args, keys, default=None):
+    inputs = get_inputs(args, keys)
+    for key, value in inputs.items():    
+        inputs[key] = float(value)
+
+    return get_attrs_as_matrix(inputs, keys, default)
+    
+
+def train_model():
+    # Loads data
+    heart = load_heart_disease_data([
+        "cleveland.csv",
+        "switzerland.csv",
+        "hungarian.csv",
+        # "longbeach.csv"
+    ])
+
+    # Cleans dataframe
+    heart = replace_with_value(heart, 'thal', 0)
+    heart = replace_with_mean(heart, 'ca')
+    heart = replace_with_mode(heart, 'fbs')
+    heart = remove_rows_with_missing_values(heart)
+
+    labels = heart['num']
+    examples = heart.drop('num', axis=1)
+
+    #Creates train and test data sets
+    test_size = .20
+    train_set, test_set, train_labels, test_labels = train_test_split(examples, labels, test_size=test_size, random_state=42)
+
+    #Creates model
+    #ExtraTreesClassifier
+    #model = ExtraTreesClassifier()
+    #model.fit(train_set, train_labels)
+
+    #LogisticRegression
+    model = LogisticRegression(max_iter=10000000)
+    model.fit(train_set.values, train_labels.values)
+
+    return model
+
+# WHAT IS attrs ??
+def predict(attrs):
+    model = train_model()
+
+    return predict_with_model(attrs, model)
+
+
+def predict_with_model(attrs, model):
+    keys = ["age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang","oldpeak","slope","ca","thal"]
+    inputs = get_attrs_as_matrix(attrs, keys, 0)
+    
+    return model.predict(inputs)
 
 def main():
     # Loads data
@@ -97,7 +153,6 @@ def main():
     #LogisticRegression
     model = LogisticRegression(max_iter=10000000)
     model.fit(train_set.values, train_labels.values)
-
     if sys.argv[1] == 'test':
         # Test and print results
         result = model.score(test_set, test_labels)
@@ -109,8 +164,8 @@ def main():
         # Predict result
         keys = ["age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang","oldpeak","slope","ca","thal"]
         inputs = get_inputs_as_matrix(sys.argv, keys, 0)
-        
         result = model.predict(inputs)
+
         print(result)
 
 if __name__ == '__main__':

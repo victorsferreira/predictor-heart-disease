@@ -1,33 +1,23 @@
-# Socket.io Server
+from flask import Flask, request, redirect, url_for, flash, jsonify
+import numpy as np
+import pickle as p
+import json
+import sys
+import os
 
-import eventlet
-import socketio
+dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(dir,'..','predictor'))
 
-sio = socketio.Server()
-app = socketio.WSGIApp(sio, static_files={
-    '/': {'content_type': 'text/html', 'filename': 'index.html'}
-})
+import heart
 
-@sio.event
-def connect(sid, environ):
-    print('connect ', sid)
+app = Flask(__name__)
 
-@sio.event
-def my_message(sid, data):
-    print('message ', data)
-    
-@sio.event
-def hello(sid, data):
-    print('HELLO. My data is:', data, sid)
-    return "TESTE 2"
-
-@sio.event
-def ping(sid, data):
-    return "Pong"
-
-@sio.event
-def disconnect(sid):
-    print('disconnect ', sid)
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+    result = heart.predict(data)
+    return jsonify(result.tolist)
 
 if __name__ == '__main__':
-    eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
+    model = heart.train_model()
+    app.run(debug=True, host='0.0.0.0')

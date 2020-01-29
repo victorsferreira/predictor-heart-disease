@@ -3,3 +3,4 @@ pandas
 sklearn
 eventlet
 python-socketio
+flask
