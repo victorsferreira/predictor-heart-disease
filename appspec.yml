@@ -4,6 +4,21 @@ files:
   - source: ./
     destination: /home/ubuntu/predictor
     runas: ubuntu
+permissions:
+  - object: /home/ubuntu/predictor
+    pattern: "**"
+    owner: root
+    group: root
+    mode: 775
+    type:
+      - directory
+  - object: /home/ubuntu/predictor
+    pattern: "**"
+    owner: root
+    group: root
+    mode: 664
+    type:
+      - file
 hooks:
   BeforeInstall:
     - location: scripts/BeforeInstall.sh
